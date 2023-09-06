@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">spscAgent</string>
+    <string name="ip">IP:</string>
+    <string name="providerName">Provider name:</string>
+    <string name="providerCity">Provider City:</string>
+    <string name="domains">Total domains:</string>
+    <string name="cheched">Cheched:</string>
+    <string name="report">Report</string>
+    <string name="alive">Alive:</string>
+    <string name="check">Check</string>
+    <string name="page_title">Report</string>
+    <string name="favorite">favorite</string>
+    <string name="search">search</string>
+    <string name="more">more</string>
+
+    <string name="hello_blank_fragment">This is Report</string>
+    <string name="content_description_favorite" />
+    <string name="content_description_search" />
+    <string name="content_description_more" />
 </resources>
