@@ -10,34 +10,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppBar"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="@string/page_title"
-            app:menu="@menu/top_app_bar"
-            app:navigationIcon="@drawable/ic_menu_24dp"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"
-            />
+            android:layout_height="wrap_content">
 
-    </com.google.android.material.appbar.AppBarLayout>
-        <ScrollView
-            android:id="@+id/SCROLLER_ID"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            android:fillViewport="true">
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title="@string/page_title"
+                app:menu="@menu/top_app_bar"
+                app:navigationIcon="@drawable/ic_back"
+                app:titleCentered="true"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
         <WebView
             android:id="@+id/reportWebView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="62dp"
             />
-        </ScrollView>
+
+
+
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

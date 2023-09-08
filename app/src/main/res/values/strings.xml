@@ -5,16 +5,18 @@
     <string name="providerCity">Provider City:</string>
     <string name="domains">Total domains:</string>
     <string name="cheched">Cheched:</string>
-    <string name="report">Report</string>
+    <string name="report">Звіт</string>
     <string name="alive">Alive:</string>
-    <string name="check">Check</string>
-    <string name="page_title">Report</string>
+    <string name="check">Нова перевірка</string>
+    <string name="page_title">spscAgent</string>
+
     <string name="favorite">favorite</string>
     <string name="search">search</string>
-    <string name="more">more</string>
+    <string name="save">Зберегти</string>
 
     <string name="hello_blank_fragment">This is Report</string>
     <string name="content_description_favorite" />
     <string name="content_description_search" />
     <string name="content_description_more" />
+    <string name="more" />
 </resources>

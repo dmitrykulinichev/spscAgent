@@ -5,14 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+   >
 
-    <LinearLayout
+
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="top|center"
-        >
-    </LinearLayout>
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBarMain"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="@string/page_title"
+            app:titleCentered="true"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -226,13 +237,26 @@
 
     </Button>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="top|center"
 
+        ><Button
+        android:id="@+id/checkConn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Перевірити зєднання"
+        android:textSize="10pt"
+        android:visibility="invisible"
+        > </Button>
+
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:gravity="center|center"
         android:padding="10dp">
-
 
         <ScrollView
             android:id="@+id/SCROLLER_ID"
@@ -250,19 +274,11 @@
         </ScrollView>
 
 
-
-
     </LinearLayout>
 
 
 
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="top|center"
-        android:padding="10dp">
 
-    </LinearLayout>
 </LinearLayout>
