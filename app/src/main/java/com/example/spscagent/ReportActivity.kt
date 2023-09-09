@@ -1,6 +1,8 @@
 package com.example.spscagent
 
+import android.app.Application
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -145,7 +147,8 @@ class ReportActivity : AppCompatActivity() {
                     //intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     // генерируем URI, я определил полномочие как ID приложения в манифесте,
                     // последний параметр это файл, который я хочу открыть
-                    val uri: Uri? = FileProvider.getUriForFile(this, "com.example.spscagent",  destination)
+                    //val uri: Uri? = FileProvider.getUriForFile(this, BuildConfig.applicationId pplication.defa"com.example.spscagent",  destination)
+                    val uri: Uri? = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID,  destination)
                     //    intent.setDataAndType(uri, "application/html");
                  //   val pm: PackageManager = getActivity().getPackageManager()
                   //  if (intent.resolveActivity(pm) != null) {

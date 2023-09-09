@@ -30,15 +30,12 @@ import java.io.IOException
 import java.math.BigInteger
 import java.security.MessageDigest
 
-const val urlApiDomainsList = "https://my.everyday.ua/api/spscMobileAppGetDomainsTest"
-const val urlApiProvider = "https://my.everyday.ua/api/spscFakeProvider"
+lateinit var urlApiDomainsList: String;
+lateinit var urlApiProvider: String;
 
-//const val urlApiProvider = "http://ip-api.com/json/"
-//const val urlApiDomainsList = "https://my.everyday.ua/api/spscMobileAppGetDomains"
-
-const val urlApiPostResult = "https://my.everyday.ua/api/spscMobileAppPostResult"
-const val urlApiPostProviderData = "https://my.everyday.ua/api/spscMobileAppPostProviderData"
-const val urlApiShowReport = "https://my.everyday.ua/api/spscMobileAppShowReport"
+const val urlApiPostResult = "https://spsc.gate.org.ua/api/app/postResult"
+const val urlApiPostProviderData = "https://spsc.gate.org.ua/api/app/postProviderData"
+const val urlApiShowReport = "https://spsc.gate.org.ua/api/app/showReport"
 
 var gvProviderData: JSONObject? = null
 
@@ -70,6 +67,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         requestedOrientation = SCREEN_ORIENTATION_PORTRAIT
 
+        if (BuildConfig.IS_TEST_APP) {
+            urlApiDomainsList = "https://spsc.gate.org.ua/api/app/getDomainsTest"
+            urlApiProvider = "https://spsc.gate.org.ua/api/app/fakeProvider"
+        } else {
+
+            urlApiDomainsList = "https://spsc.gate.org.ua/api/app/getDomains"
+            urlApiProvider = "http://ip-api.com/json/"
+        }
+
         tvChecked = findViewById(R.id.domainsChecked)
         tvAlive = findViewById(R.id.domainsAlive)
         tvLog = findViewById(R.id.tvLog)
@@ -77,13 +83,14 @@ class MainActivity : AppCompatActivity() {
         tvProviderName = findViewById(R.id.providerName)
         tvProviderCity = findViewById(R.id.providerCity)
         tvTotalDomains = findViewById(R.id.domainsCount)
+
         btnCheckConn = findViewById(R.id.checkConn)
         btnMain = findViewById(R.id.buttonCheck)
         btnReport = findViewById(R.id.btnReport)
 
         /*********      BTN REPORT CLICK      **********/
         btnCheckConn.setOnClickListener {
-            isOnline=isOnline()
+            isOnline = isOnline()
             if (isOnline) {
                 btnCheckConn.visibility = View.INVISIBLE
                 Toast.makeText(this@MainActivity, "Є підключення!!", Toast.LENGTH_SHORT).show()
@@ -94,13 +101,15 @@ class MainActivity : AppCompatActivity() {
                     getDomainsData();
                 }
             } else {
-                Toast.makeText(this@MainActivity, "Схоже Ви не підключені до Інтернету", Toast.LENGTH_SHORT).show()
-
+                Toast.makeText(
+                    this@MainActivity,
+                    "Схоже Ви не підключені до Інтернету",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
-
-        isOnline=isOnline()
+        isOnline = isOnline()
         if (isOnline) {
             GlobalScope.launch(Dispatchers.Default) {
                 getProviderData();
@@ -109,19 +118,21 @@ class MainActivity : AppCompatActivity() {
                 getDomainsData();
             }
         } else {
-            Toast.makeText(this@MainActivity, "Схоже Ви не підключені до Інтернету", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this@MainActivity,
+                "Схоже Ви не підключені до Інтернету",
+                Toast.LENGTH_SHORT
+            ).show()
             btnCheckConn.visibility = View.VISIBLE
         }
 
     }
 
-
     //override fun onNavigationClickL
-
 
     suspend fun getProviderData() {
 
-     //   Toast.makeText(this@MainActivity, "Getting provider data....", Toast.LENGTH_SHORT).show()
+        //   Toast.makeText(this@MainActivity, "Getting provider data....", Toast.LENGTH_SHORT).show()
 
         val client = OkHttpClient()
         val request = Request.Builder()
@@ -139,9 +150,10 @@ class MainActivity : AppCompatActivity() {
                         tvProviderIp.setText(gvProviderData!!.getString("query"));
                         tvProviderName.setText(gvProviderData!!.getString("isp"));
                         tvProviderCity.setText(gvProviderData!!.getString("regionName"));
-
-                        gvHash = md5(gvProviderData!!.getString("query") + System.currentTimeMillis().toString())
-
+                        gvHash = md5(
+                            gvProviderData!!.getString("query") + System.currentTimeMillis()
+                                .toString()
+                        )
                         initUI()
                     }
                     Log.d("myLog", gvProviderData!!.toString())
@@ -151,13 +163,14 @@ class MainActivity : AppCompatActivity() {
             }
         } catch (e: IOException) {
             Log.d("myLog", "$urlApiProvider | Ошибка подключения: $e")
+            //  Toast.makeText(this, "$urlApiProvider | Ошибка подключения: $e", Toast.LENGTH_SHORT).show()
         }
     }
 
     suspend fun getDomainsData() {
-       // runOnUiThread {
+        // runOnUiThread {
         //    Toast.makeText(this@MainActivity, "Getting domains data....", Toast.LENGTH_SHORT).show()
-       // }
+        // }
         val client = OkHttpClient()
         val request = Request.Builder()
             .url(urlApiDomainsList)
@@ -174,6 +187,9 @@ class MainActivity : AppCompatActivity() {
                     isLoadedDomainsData = true
                     var responseJSON = JSONObject(response.body!!.string())
                     gvDomains = responseJSON.getJSONArray("data")
+
+
+
                     runOnUiThread {
                         gvDomainsTotal = gvDomains?.length()
                         tvTotalDomains!!.text = gvDomainsTotal.toString()
@@ -204,10 +220,7 @@ class MainActivity : AppCompatActivity() {
             override fun onFailure(call: Call, e: IOException) {
                 // Handle this
             }
-
             override fun onResponse(call: Call, response: Response) {
-
-
                 // request 2
                 val jsonArray = JSONArray(resultArray)
                 requestBody = jsonArray.toString().toRequestBody()
@@ -267,8 +280,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initUI() {
 
-        if (isLoadedProviderData && isLoadedDomainsData)
-        {
+        if (isLoadedProviderData && isLoadedDomainsData) {
             btnMain.visibility = View.VISIBLE
             btnReport.visibility = View.VISIBLE
             btnReport.isEnabled = false
@@ -276,7 +288,7 @@ class MainActivity : AppCompatActivity() {
             /*********      BTN MAIN CLICK      **********/
             btnMain.setOnClickListener {
 
-                isOnline=isOnline()
+                isOnline = isOnline()
                 if (isOnline) {
 
 
@@ -309,10 +321,13 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this@MainActivity, "All requests has sent", Toast.LENGTH_SHORT)
                         .show()
                 } else {
-                    Toast.makeText(this@MainActivity, "Схоже Ви не підключені до Інтернету", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Схоже Ви не підключені до Інтернету",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     btnCheckConn.visibility = View.VISIBLE
                 }
-
 
 
             }
@@ -345,11 +360,12 @@ class MainActivity : AppCompatActivity() {
         }
         if (gvDomainsChecked == gvDomainsTotal) {
             runOnUiThread {
-               // btnMain.visibility = View.VISIBLE
+                // btnMain.visibility = View.VISIBLE
 
                 btnMain.isEnabled = true
                 btnReport.isEnabled = true
-                Toast.makeText(this@MainActivity, "Checking has finished", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "Checking has finished", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
         Log.d("myLog", "${gvDomainsTotal} / ${gvDomainsChecked} / ${gvDomainsAlive}")
@@ -365,7 +381,6 @@ class MainActivity : AppCompatActivity() {
         val netInfo = cm.activeNetworkInfo
         return netInfo != null && netInfo.isConnectedOrConnecting
     }
-
 
 
 }
